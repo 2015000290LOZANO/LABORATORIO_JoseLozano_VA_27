@@ -1,0 +1,127 @@
+Jose Lozano VA 27
+MYSQL WORKBRENCH
+
+Create database Prelab;
+use Prelab;
+
+create table Direccion(
+	idDireccion int(11) primary key,
+    Direccion varchar(45),
+    Ciudad varchar(45),
+    Pais varchar(45)
+);
+
+insert into Direccion values
+(1,'Local 1','Guatemala','Guatemala'),
+(2,'Local 2','Brasilia','Brasil'),
+(3,'Local 3','Nueva York','Estados Unidos'),
+(4,'Local 4','Medellin','Colombia'),
+(5,'Local 5','Buenos Aires','Argentina');
+
+select * from Direccion;
+
+create table Categoria(
+	idCategoria int(1) primary key,
+    Nombre varchar(45)
+);
+insert into Categoria values
+(1, 'Comedia'),
+(2, 'Suspenso'),
+(3, 'Terror'),
+(4, 'Intriga'),
+(5, 'Ficción');
+
+Select * from Categoria Order by Nombre asc;
+
+create table peliculas(
+	idPeliculas int(11) primary key,
+    Nombre varchar (45),
+    Duracion int(11),
+    Descripcion text,
+    Año int(11),
+    Categoria_idCategoria int(11),
+    foreign key (Categoria_idCategoria) References Categoria(idCategoria)
+);
+
+insert into peliculas values
+(1, 'POKEMON1','2 hrs','Pelicula de anime','2003','1'),
+(2, 'Cars','1:30 hrs','Pelicula de carros','2010','2'),
+(3, 'Avatar','3 hrs','Pelicula de ficción','2006','3'),
+(4, 'POKEMON1','2:30 hrs','Pelicula de anime','2000','1'),
+(5, 'Son como niños','1:30 hrs','Pelicula de comedia','2009','5');
+
+Delete from peliculas where Nombre ='POKEMON1';
+Select * from peliculas Order by Año desc;
+
+
+create table cliente(
+	idCliente int(11) primary key,
+    Nombre varchar(45),
+    Apellido varchar(45),
+    Edad int(11),
+    Direccion_idDireccion int(11),
+    foreign key (Direccion_idDireccion) References Direccion(idDireccion)
+);
+
+insert into cliente values
+(1, 'Jose','Lozano','17','1'),
+(2, 'Juliana','López','17','1'),
+(3, 'Jorge','Lima','17','1'),
+(4, 'Eric','Samayoa','17','1'),
+(5, 'Javier','Zuleta','17','1');
+
+Select * from cliente where Nombre= 'Juliana';
+
+create table Inventario(
+	idCopiasPeliculas int(11) primary key,
+    Peliculas_idPeliculas int(11),
+    foreign key (Peliculas_idPeliculas) References Peliculas(idPeliculas),
+    Disponible tinyint(1)
+);
+insert into Inventario values
+(1,1,1),
+(2,2,1),
+(3,3,0),
+(4,4,1),
+(5,5,0);
+select * from Inventario;
+
+
+create table renta(
+	idRenta int(11) primary key,
+	FechaRenta date,
+	FechaEntrega date,
+	Inventario_idCopiasPeliculas int(11),
+    Cliente_idCliente int(11),
+    foreign key (Inventario_idCopiasPeliculas) references Inventario(idCopiasPeliculas),
+	foreign key (Cliente_idCliente) references Cliente(idCliente)
+);
+
+insert into renta values
+(1,'2024-06-20','2024-07-20',1,1),
+(2,'2024-03-15','2024-04-15',2,2),
+(3,'2024-08-31','2024-09-31',3,3),
+(4,'2024-06-02','2024-07-02',4,4),
+(5,'2024-09-14','2024-10-14',5,5);
+
+select * from renta;
+
+create table empleadoss(
+	idEmpleados int(11) primary key,
+    Nombre varchar(15),
+    Apellido varchar(15),
+    Sucursal_idSucursal int(11),
+    foreign key (Sucursal_idSucursal) references Sucursal(idSucursal)
+);
+
+
+select * from empleadoss;
+
+create table Sucursall(
+	idSucursal int(11) primary key,
+    Nombre varchar(15),
+    Ciudad varchar(15),
+    Sucursal_idSucursal int(11),
+    foreign key (Sucursal_idSucursal) references Sucursal(idSucursal)
+);
+select * from Sucursall;
